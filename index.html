@@ -4,25 +4,24 @@
 <meta charset="UTF-8">
 <title>Verzoek tot aanpassing Digitale Atlas</title>
 <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f8f8; }
-    h1 { color: #004080; }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    input[type="text"], input[type="date"], textarea, select {
-        width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;
-        border: 1px solid #ccc; border-radius: 4px;
-    }
-    .checkbox-group label { display: block; font-weight: normal; }
-    textarea { resize: vertical; }
-    button { margin-top: 20px; padding: 10px 15px; background-color: #004080; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
-    button:hover { background-color: #0066cc; }
+body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f8f8; }
+h1 { color: #004080; }
+label { display: block; margin-top: 15px; font-weight: bold; }
+input[type="text"], input[type="date"], textarea, select {
+    width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;
+    border: 1px solid #ccc; border-radius: 4px;
+}
+.checkbox-group label { display: block; font-weight: normal; }
+textarea { resize: vertical; }
+button { margin-top: 20px; padding: 10px 15px; background-color: #004080; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+button:hover { background-color: #0066cc; }
 </style>
 </head>
 <body>
 
-<h1>Standaardsjabloon e-mail – Verzoek tot aanpassing Digitale Atlas (Oost‑Vlaanderen)</h1>
+<h1>Formulier – Digitale Atlas Oost‑Vlaanderen</h1>
 
 <form id="atlasForm">
-
     <label for="gemeenteSelect">Gemeente(n) (selecteer of typ):</label>
     <select id="gemeenteSelect" onchange="checkAndereGemeente()">
         <option value="">-- Kies gemeente --</option>
@@ -83,10 +82,9 @@
         <option value="Zwalm">Zwalm</option>
         <option value="Andere">-- Typ zelf --</option>
     </select>
-
     <input type="text" id="gemeenteText" placeholder="Typ hier zelf gemeente" style="display:none; margin-top:5px;">
 
-    <label for="provinciaalNr">Provinciaal nummer / VHAG-code (indien beschikbaar):</label>
+    <label for="provinciaalNr">Provinciaal nummer / VHAG-code:</label>
     <input type="text" id="provinciaalNr" placeholder="">
 
     <label for="titel">Titel van de beslissing:</label>
@@ -111,13 +109,10 @@
         <label><input type="checkbox" value="Ander"> Ander</label>
     </div>
 
-    <label for="toelichting">Korte toelichting (optioneel, 2–3 zinnen):</label>
+    <label for="toelichting">Korte toelichting:</label>
     <textarea id="toelichting" rows="3" placeholder="2–3 zinnen toelichting..."></textarea>
 
-    <label>Bijlagen (handmatig toe te voegen bij de e-mail):</label>
-    <p>Bestuurlijke beslissing (verplicht) • Plannen • Voorafgaande documenten • Overige relevante stukken</p>
-
-    <button type="button" onclick="openEmail()">Open e-mail in Outlook</button>
+    <button type="button" onclick="generateLink()">Genereer weergave-link</button>
 </form>
 
 <script>
@@ -132,55 +127,26 @@ function checkAndereGemeente() {
     }
 }
 
-function openEmail() {
+function generateLink() {
     const select = document.getElementById('gemeenteSelect');
     const text = document.getElementById('gemeenteText');
-    const gemeente = (select.value === 'Andere' && text.value.trim() !== '') ? text.value.trim() : select.value || '[gemeente(n)]';
+    const gemeente = (select.value === 'Andere' && text.value.trim() !== '') ? text.value.trim() : select.value || '[gemeente]';
 
-    const provinciaalNr = document.getElementById('provinciaalNr').value || '[provinciaal nummer / VHAG-code]';
-    const titel = document.getElementById('titel').value || '[titel van de beslissing]';
-    const datum = document.getElementById('datum').value || '[beslissingsdatum]';
-    const referentie = document.getElementById('referentie').value || '[referentienummer]';
-    const toelichting = document.getElementById('toelichting').value || '[korte toelichting]';
+    const provinciaalNr = encodeURIComponent(document.getElementById('provinciaalNr').value || '');
+    const titel = encodeURIComponent(document.getElementById('titel').value || '');
+    const datum = encodeURIComponent(document.getElementById('datum').value || '');
+    const referentie = encodeURIComponent(document.getElementById('referentie').value || '');
+    const toelichting = encodeURIComponent(document.getElementById('toelichting').value || '');
 
     const checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
-    let types = Array.from(checkboxes).map(cb => cb.value);
-    if(types.length === 0) types = ['[type beslissing]'];
+    const types = Array.from(checkboxes).map(cb => cb.value);
+    const typesStr = encodeURIComponent(types.join(', '));
 
-    let typeListHTML = types.map(t => `<li>${t}</li>`).join('');
+    const baseLink = 'https://jouwgebruikersnaam.github.io/weergave.html';
+    const params = `?gemeente=${encodeURIComponent(gemeente)}&provinciaalNr=${provinciaalNr}&titel=${titel}&datum=${datum}&referentie=${referentie}&types=${typesStr}&toelichting=${toelichting}`;
 
-    const emailBodyHTML = `
-<html>
-<body style="font-family: Arial, sans-serif; font-size: 14px; color: #000;">
-<p>Geachte heer/mevrouw,</p>
-
-<p>Hierbij verzoeken wij om de volgende aanpassing(en) in de Digitale Atlas van Oost‑Vlaanderen door te voeren, conform de bijgevoegde beslissing(en) en ondersteunende documenten:</p>
-
-<p><b>Gemeente(n):</b> ${gemeente}<br>
-<b>Provinciaal nummer / VHAG-code:</b> ${provinciaalNr}<br>
-<b>Titel van de beslissing:</b> ${titel}<br>
-<b>Beslissingsdatum:</b> ${datum}<br>
-<b>Referentienummer:</b> ${referentie}</p>
-
-<p><b>Type beslissing:</b></p>
-<ul>${typeListHTML}</ul>
-
-<p><b>Korte toelichting:</b> ${toelichting}</p>
-
-<p><b>Bijlagen:</b><br>
-• Bestuurlijke beslissing (verplicht)<br>
-• Plannen<br>
-• Voorafgaande documenten<br>
-• Overige relevante stukken</p>
-
-<p>Wij danken u bij voorbaat voor de verwerking van dit verzoek en staan tot uw beschikking voor eventuele aanvullende informatie.</p>
-
-<p>Met vriendelijke groet,<br>[Naam / Dienst / Contactgegevens]</p>
-</body>
-</html>`;
-
-    const mailtoLink = `mailto:?subject=${encodeURIComponent('Verzoek tot aanpassing Digitale Atlas')}&body=${encodeURIComponent(emailBodyHTML)}`;
-    window.location.href = mailtoLink;
+    const finalLink = baseLink + params;
+    prompt('Kopieer deze link en deel met externen:', finalLink);
 }
 </script>
 
