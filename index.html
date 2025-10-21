@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Verzoek tot aanpassing Digitale Atlas</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f8f8; }
+    h1 { color: #004080; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input[type="text"], input[type="date"], textarea, select {
+        width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;
+        border: 1px solid #ccc; border-radius: 4px;
+    }
+    .checkbox-group label { display: block; font-weight: normal; }
+    textarea { resize: vertical; }
+    button { margin-top: 20px; padding: 10px 15px; background-color: #004080; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background-color: #0066cc; }
+</style>
+</head>
+<body>
+
+<h1>Standaardsjabloon e-mail – Verzoek tot aanpassing Digitale Atlas (Oost‑Vlaanderen)</h1>
+
+<form id="atlasForm">
+
+    <label for="gemeenteSelect">Gemeente(n) (selecteer of typ):</label>
+    <select id="gemeenteSelect" onchange="checkAndereGemeente()">
+        <option value="">-- Kies gemeente --</option>
+        <option value="Aalst">Aalst</option>
+        <option value="Aalter">Aalter</option>
+        <option value="Assenede">Assenede</option>
+        <option value="Berlare">Berlare</option>
+        <option value="Beveren-Kruibeke-Zwijndrecht">Beveren-Kruibeke-Zwijndrecht</option>
+        <option value="Brakel">Brakel</option>
+        <option value="Buggenhout">Buggenhout</option>
+        <option value="Deinze">Deinze</option>
+        <option value="Denderleeuw">Denderleeuw</option>
+        <option value="Dendermonde">Dendermonde</option>
+        <option value="Destelbergen">Destelbergen</option>
+        <option value="Eeklo">Eeklo</option>
+        <option value="Erpe-Mere">Erpe-Mere</option>
+        <option value="Evergem">Evergem</option>
+        <option value="Gavere">Gavere</option>
+        <option value="Gent">Gent</option>
+        <option value="Geraardsbergen">Geraardsbergen</option>
+        <option value="Haaltert">Haaltert</option>
+        <option value="Hamme">Hamme</option>
+        <option value="Herzele">Herzele</option>
+        <option value="Horebeke">Horebeke</option>
+        <option value="Kaprijke">Kaprijke</option>
+        <option value="Kluisbergen">Kluisbergen</option>
+        <option value="Kruisem">Kruisem</option>
+        <option value="Laarne">Laarne</option>
+        <option value="Lebbeke">Lebbeke</option>
+        <option value="Lede">Lede</option>
+        <option value="Lierde">Lierde</option>
+        <option value="Lievegem">Lievegem</option>
+        <option value="Lochristi">Lochristi</option>
+        <option value="Lokeren">Lokeren</option>
+        <option value="Maarkedal">Maarkedal</option>
+        <option value="Maldegem">Maldegem</option>
+        <option value="Merelbeke-Melle">Merelbeke-Melle</option>
+        <option value="Nazareth-De Pinte">Nazareth-De Pinte</option>
+        <option value="Ninove">Ninove</option>
+        <option value="Oosterzele">Oosterzele</option>
+        <option value="Oudenaarde">Oudenaarde</option>
+        <option value="Ronse">Ronse</option>
+        <option value="Sint-Gillis-Waas">Sint-Gillis-Waas</option>
+        <option value="Sint-Laureins">Sint-Laureins</option>
+        <option value="Sint-Lievens-Houtem">Sint-Lievens-Houtem</option>
+        <option value="Sint-Martens-Latem">Sint-Martens-Latem</option>
+        <option value="Sint-Niklaas">Sint-Niklaas</option>
+        <option value="Stekene">Stekene</option>
+        <option value="Temse">Temse</option>
+        <option value="Waasmunster">Waasmunster</option>
+        <option value="Wetteren">Wetteren</option>
+        <option value="Wichelen">Wichelen</option>
+        <option value="Wortegem-Petegem">Wortegem-Petegem</option>
+        <option value="Zele">Zele</option>
+        <option value="Zelzate">Zelzate</option>
+        <option value="Zottegem">Zottegem</option>
+        <option value="Zulte">Zulte</option>
+        <option value="Zwalm">Zwalm</option>
+        <option value="Andere">-- Typ zelf --</option>
+    </select>
+
+    <input type="text" id="gemeenteText" placeholder="Typ hier zelf gemeente" style="display:none; margin-top:5px;">
+
+    <label for="provinciaalNr">Provinciaal nummer / VHAG-code (indien beschikbaar):</label>
+    <input type="text" id="provinciaalNr" placeholder="">
+
+    <label for="titel">Titel van de beslissing:</label>
+    <input type="text" id="titel" placeholder="">
+
+    <label for="datum">Beslissingsdatum:</label>
+    <input type="date" id="datum" value="2025-10-21">
+
+    <label for="referentie">Referentienummer:</label>
+    <input type="text" id="referentie" placeholder="">
+
+    <label>Type beslissing (vink aan):</label>
+    <div class="checkbox-group">
+        <label><input type="checkbox" value="Verlegging"> Verlegging</label>
+        <label><input type="checkbox" value="Ontnemen rangschikking"> Ontnemen rangschikking</label>
+        <label><input type="checkbox" value="Wijziging rangschikking"> Wijziging rangschikking</label>
+        <label><input type="checkbox" value="Aanduiding publieke gracht"> Aanduiding publieke gracht</label>
+        <label><input type="checkbox" value="Aanpassing punt van oorsprong"> Aanpassing punt van oorsprong</label>
+        <label><input type="checkbox" value="Deklassering"> Deklassering</label>
+        <label><input type="checkbox" value="Afschaffing"> Afschaffing</label>
+        <label><input type="checkbox" value="Statuut publieke gracht ontnomen"> Statuut publieke gracht ontnomen</label>
+        <label><input type="checkbox" value="Ander"> Ander</label>
+    </div>
+
+    <label for="toelichting">Korte toelichting (optioneel, 2–3 zinnen):</label>
+    <textarea id="toelichting" rows="3" placeholder="2–3 zinnen toelichting..."></textarea>
+
+    <label>Bijlagen (handmatig toe te voegen bij de e-mail):</label>
+    <p>Bestuurlijke beslissing (verplicht) • Plannen • Voorafgaande documenten • Overige relevante stukken</p>
+
+    <button type="button" onclick="openEmail()">Open e-mail in Outlook</button>
+</form>
+
+<script>
+function checkAndereGemeente() {
+    const select = document.getElementById('gemeenteSelect');
+    const text = document.getElementById('gemeenteText');
+    if (select.value === 'Andere') {
+        text.style.display = 'block';
+    } else {
+        text.style.display = 'none';
+        text.value = '';
+    }
+}
+
+function openEmail() {
+    const select = document.getElementById('gemeenteSelect');
+    const text = document.getElementById('gemeenteText');
+    const gemeente = (select.value === 'Andere' && text.value.trim() !== '') ? text.value.trim() : select.value || '[gemeente(n)]';
+
+    const provinciaalNr = document.getElementById('provinciaalNr').value || '[provinciaal nummer / VHAG-code]';
+    const titel = document.getElementById('titel').value || '[titel van de beslissing]';
+    const datum = document.getElementById('datum').value || '[beslissingsdatum]';
+    const referentie = document.getElementById('referentie').value || '[referentienummer]';
+    const toelichting = document.getElementById('toelichting').value || '[korte toelichting]';
+
+    const checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
+    let types = Array.from(checkboxes).map(cb => cb.value);
+    if(types.length === 0) types = ['[type beslissing]'];
+
+    let typeListHTML = types.map(t => `<li>${t}</li>`).join('');
+
+    const emailBodyHTML = `
+<html>
+<body style="font-family: Arial, sans-serif; font-size: 14px; color: #000;">
+<p>Geachte heer/mevrouw,</p>
+
+<p>Hierbij verzoeken wij om de volgende aanpassing(en) in de Digitale Atlas van Oost‑Vlaanderen door te voeren, conform de bijgevoegde beslissing(en) en ondersteunende documenten:</p>
+
+<p><b>Gemeente(n):</b> ${gemeente}<br>
+<b>Provinciaal nummer / VHAG-code:</b> ${provinciaalNr}<br>
+<b>Titel van de beslissing:</b> ${titel}<br>
+<b>Beslissingsdatum:</b> ${datum}<br>
+<b>Referentienummer:</b> ${referentie}</p>
+
+<p><b>Type beslissing:</b></p>
+<ul>${typeListHTML}</ul>
+
+<p><b>Korte toelichting:</b> ${toelichting}</p>
+
+<p><b>Bijlagen:</b><br>
+• Bestuurlijke beslissing (verplicht)<br>
+• Plannen<br>
+• Voorafgaande documenten<br>
+• Overige relevante stukken</p>
+
+<p>Wij danken u bij voorbaat voor de verwerking van dit verzoek en staan tot uw beschikking voor eventuele aanvullende informatie.</p>
+
+<p>Met vriendelijke groet,<br>[Naam / Dienst / Contactgegevens]</p>
+</body>
+</html>`;
+
+    const mailtoLink = `mailto:?subject=${encodeURIComponent('Verzoek tot aanpassing Digitale Atlas')}&body=${encodeURIComponent(emailBodyHTML)}`;
+    window.location.href = mailtoLink;
+}
+</script>
+
+</body>
+</html>
