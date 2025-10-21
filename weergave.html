@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Weergave ingevulde gegevens</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f8f8; }
+h1 { color: #004080; }
+p { margin: 5px 0; }
+</style>
+</head>
+<body>
+<h1>Ingevulde gegevens – Digitale Atlas</h1>
+<div id="content"></div>
+
+<script>
+// Functie om URL-parameters te lezen
+function getParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+        gemeente: params.get('gemeente') || '',
+        provinciaalNr: params.get('provinciaalNr') || '',
+        titel: params.get('titel') || '',
+        datum: params.get('datum') || '',
+        referentie: params.get('referentie') || '',
+        types: params.get('types') || '',
+        toelichting: params.get('toelichting') || ''
+    };
+}
+
+const data = getParams();
+const contentDiv = document.getElementById('content');
+contentDiv.innerHTML = `
+<p><b>Gemeente(n):</b> ${data.gemeente}</p>
+<p><b>Provinciaal nummer / VHAG-code:</b> ${data.provinciaalNr}</p>
+<p><b>Titel van de beslissing:</b> ${data.titel}</p>
+<p><b>Beslissingsdatum:</b> ${data.datum}</p>
+<p><b>Referentienummer:</b> ${data.referentie}</p>
+<p><b>Type beslissing:</b> ${data.types.replace(/,/g, ', ')}</p>
+<p><b>Korte toelichting:</b> ${data.toelichting}</p>
+`;
+</script>
+</body>
+</html>
